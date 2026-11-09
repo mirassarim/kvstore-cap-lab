@@ -24,17 +24,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rkvstore.proto\x12\x07kvstore\"b\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12-\n\x0b\x63onsistency\x18\x02 \x01(\x0e\x32\x18.kvstore.ReadConsistency\x12\x18\n\x10max_staleness_ms\x18\x03 \x01(\r\"R\n\x08GetReply\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\x12\x16\n\x0eread_timestamp\x18\x03 \x01(\x04\x12\x10\n\x08is_stale\x18\x04 \x01(\x08\"~\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x17\n\x0fidempotency_key\x18\x03 \x01(\t\x12(\n\x08strategy\x18\x04 \x01(\x0e\x32\x16.kvstore.WriteStrategy\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"I\n\x08PutReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x15\n\racks_received\x18\x02 \x01(\r\x12\x15\n\rerror_message\x18\x03 \x01(\t*7\n\x0fReadConsistency\x12\x10\n\x0cLINEARIZABLE\x10\x00\x12\x12\n\x0e\x46OLLOWER_STALE\x10\x01*-\n\rWriteStrategy\x12\r\n\tQUORUM_CP\x10\x00\x12\r\n\tALWAYS_AP\x10\x01\x32\xa2\x01\n\rKeyValueStore\x12-\n\x03Get\x12\x13.kvstore.GetRequest\x1a\x11.kvstore.GetReply\x12-\n\x03Put\x12\x13.kvstore.PutRequest\x1a\x11.kvstore.PutReply\x12\x33\n\tReplicate\x12\x13.kvstore.PutRequest\x1a\x11.kvstore.PutReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rkvstore.proto\x12\x07kvstore\"b\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12-\n\x0b\x63onsistency\x18\x02 \x01(\x0e\x32\x18.kvstore.ReadConsistency\x12\x18\n\x10max_staleness_ms\x18\x03 \x01(\r\"R\n\x08GetReply\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\x12\x16\n\x0eread_timestamp\x18\x03 \x01(\x04\x12\x10\n\x08is_stale\x18\x04 \x01(\x08\"~\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x17\n\x0fidempotency_key\x18\x03 \x01(\t\x12(\n\x08strategy\x18\x04 \x01(\x0e\x32\x16.kvstore.WriteStrategy\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"I\n\x08PutReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x15\n\racks_received\x18\x02 \x01(\r\x12\x15\n\rerror_message\x18\x03 \x01(\t\":\n\x10HeartbeatRequest\x12\x13\n\x0bleaseholder\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\"\x1c\n\x0eHeartbeatReply\x12\n\n\x02ok\x18\x01 \x01(\x08*7\n\x0fReadConsistency\x12\x10\n\x0cLINEARIZABLE\x10\x00\x12\x12\n\x0e\x46OLLOWER_STALE\x10\x01*-\n\rWriteStrategy\x12\r\n\tQUORUM_CP\x10\x00\x12\r\n\tALWAYS_AP\x10\x01\x32\x97\x02\n\rKeyValueStore\x12-\n\x03Get\x12\x13.kvstore.GetRequest\x1a\x11.kvstore.GetReply\x12-\n\x03Put\x12\x13.kvstore.PutRequest\x1a\x11.kvstore.PutReply\x12\x33\n\tReplicate\x12\x13.kvstore.PutRequest\x1a\x11.kvstore.PutReply\x12\x32\n\x08PeerRead\x12\x13.kvstore.GetRequest\x1a\x11.kvstore.GetReply\x12?\n\tHeartbeat\x12\x19.kvstore.HeartbeatRequest\x1a\x17.kvstore.HeartbeatReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'kvstore_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_READCONSISTENCY']._serialized_start=413
-  _globals['_READCONSISTENCY']._serialized_end=468
-  _globals['_WRITESTRATEGY']._serialized_start=470
-  _globals['_WRITESTRATEGY']._serialized_end=515
+  _globals['_READCONSISTENCY']._serialized_start=503
+  _globals['_READCONSISTENCY']._serialized_end=558
+  _globals['_WRITESTRATEGY']._serialized_start=560
+  _globals['_WRITESTRATEGY']._serialized_end=605
   _globals['_GETREQUEST']._serialized_start=26
   _globals['_GETREQUEST']._serialized_end=124
   _globals['_GETREPLY']._serialized_start=126
@@ -43,6 +43,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_PUTREQUEST']._serialized_end=336
   _globals['_PUTREPLY']._serialized_start=338
   _globals['_PUTREPLY']._serialized_end=411
-  _globals['_KEYVALUESTORE']._serialized_start=518
-  _globals['_KEYVALUESTORE']._serialized_end=680
+  _globals['_HEARTBEATREQUEST']._serialized_start=413
+  _globals['_HEARTBEATREQUEST']._serialized_end=471
+  _globals['_HEARTBEATREPLY']._serialized_start=473
+  _globals['_HEARTBEATREPLY']._serialized_end=501
+  _globals['_KEYVALUESTORE']._serialized_start=608
+  _globals['_KEYVALUESTORE']._serialized_end=887
 # @@protoc_insertion_point(module_scope)

@@ -49,6 +49,16 @@ class KeyValueStoreStub:
                 request_serializer=kvstore__pb2.PutRequest.SerializeToString,
                 response_deserializer=kvstore__pb2.PutReply.FromString,
                 _registered_method=True)
+        self.PeerRead = channel.unary_unary(
+                '/kvstore.KeyValueStore/PeerRead',
+                request_serializer=kvstore__pb2.GetRequest.SerializeToString,
+                response_deserializer=kvstore__pb2.GetReply.FromString,
+                _registered_method=True)
+        self.Heartbeat = channel.unary_unary(
+                '/kvstore.KeyValueStore/Heartbeat',
+                request_serializer=kvstore__pb2.HeartbeatRequest.SerializeToString,
+                response_deserializer=kvstore__pb2.HeartbeatReply.FromString,
+                _registered_method=True)
 
 
 class KeyValueStoreServicer:
@@ -73,6 +83,20 @@ class KeyValueStoreServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def PeerRead(self, request, context):
+        """internal: raw local read
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Heartbeat(self, request, context):
+        """internal: leaseholder -> follower
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_KeyValueStoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -90,6 +114,16 @@ def add_KeyValueStoreServicer_to_server(servicer, server):
                     servicer.Replicate,
                     request_deserializer=kvstore__pb2.PutRequest.FromString,
                     response_serializer=kvstore__pb2.PutReply.SerializeToString,
+            ),
+            'PeerRead': grpc.unary_unary_rpc_method_handler(
+                    servicer.PeerRead,
+                    request_deserializer=kvstore__pb2.GetRequest.FromString,
+                    response_serializer=kvstore__pb2.GetReply.SerializeToString,
+            ),
+            'Heartbeat': grpc.unary_unary_rpc_method_handler(
+                    servicer.Heartbeat,
+                    request_deserializer=kvstore__pb2.HeartbeatRequest.FromString,
+                    response_serializer=kvstore__pb2.HeartbeatReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -173,6 +207,60 @@ class KeyValueStore:
             '/kvstore.KeyValueStore/Replicate',
             kvstore__pb2.PutRequest.SerializeToString,
             kvstore__pb2.PutReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def PeerRead(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/kvstore.KeyValueStore/PeerRead',
+            kvstore__pb2.GetRequest.SerializeToString,
+            kvstore__pb2.GetReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Heartbeat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/kvstore.KeyValueStore/Heartbeat',
+            kvstore__pb2.HeartbeatRequest.SerializeToString,
+            kvstore__pb2.HeartbeatReply.FromString,
             options,
             channel_credentials,
             insecure,
