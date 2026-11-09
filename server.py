@@ -250,8 +250,11 @@ class KVStoreServicer(kvstore_pb2_grpc.KeyValueStoreServicer):
     def _proxy_to_leaseholder(self, request, context):
         try:
             stub = self._stub_for(self._leaseholder)
-            return stub.Get(request, timeout=self._peer_timeout * 2)
+            return stub.Get(request, timeout=self._peer_timeout * 1.5)
         except grpc.RpcError as err:
+            if err.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
+                context.abort(grpc.StatusCode.UNAVAILABLE,
+                              "leaseholder did not answer in time")
             context.abort(err.code(), f"leaseholder: {err.details()}")
         except PeerUnreachable:
             context.abort(grpc.StatusCode.UNAVAILABLE, "leaseholder unreachable")

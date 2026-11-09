@@ -9,7 +9,7 @@ import kvstore_pb2_grpc
 
 
 class KVClient:
-    def __init__(self, target, deadline=2.0):
+    def __init__(self, target, deadline=3.0):
         self._channel = grpc.insecure_channel(target)
         self._stub = kvstore_pb2_grpc.KeyValueStoreStub(self._channel)
         self._deadline = deadline
