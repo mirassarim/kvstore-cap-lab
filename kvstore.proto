@@ -42,4 +42,5 @@ message PutReply {
 service KeyValueStore {
   rpc Get (GetRequest) returns (GetReply);
   rpc Put (PutRequest) returns (PutReply);
+  rpc Replicate (PutRequest) returns (PutReply);  // internal: replica -> replica
 }

@@ -44,6 +44,11 @@ class KeyValueStoreStub:
                 request_serializer=kvstore__pb2.PutRequest.SerializeToString,
                 response_deserializer=kvstore__pb2.PutReply.FromString,
                 _registered_method=True)
+        self.Replicate = channel.unary_unary(
+                '/kvstore.KeyValueStore/Replicate',
+                request_serializer=kvstore__pb2.PutRequest.SerializeToString,
+                response_deserializer=kvstore__pb2.PutReply.FromString,
+                _registered_method=True)
 
 
 class KeyValueStoreServicer:
@@ -61,6 +66,13 @@ class KeyValueStoreServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Replicate(self, request, context):
+        """internal: replica -> replica
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_KeyValueStoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -71,6 +83,11 @@ def add_KeyValueStoreServicer_to_server(servicer, server):
             ),
             'Put': grpc.unary_unary_rpc_method_handler(
                     servicer.Put,
+                    request_deserializer=kvstore__pb2.PutRequest.FromString,
+                    response_serializer=kvstore__pb2.PutReply.SerializeToString,
+            ),
+            'Replicate': grpc.unary_unary_rpc_method_handler(
+                    servicer.Replicate,
                     request_deserializer=kvstore__pb2.PutRequest.FromString,
                     response_serializer=kvstore__pb2.PutReply.SerializeToString,
             ),
@@ -127,6 +144,33 @@ class KeyValueStore:
             request,
             target,
             '/kvstore.KeyValueStore/Put',
+            kvstore__pb2.PutRequest.SerializeToString,
+            kvstore__pb2.PutReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Replicate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/kvstore.KeyValueStore/Replicate',
             kvstore__pb2.PutRequest.SerializeToString,
             kvstore__pb2.PutReply.FromString,
             options,
