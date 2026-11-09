@@ -82,18 +82,18 @@ class KVStoreServicer(kvstore_pb2_grpc.KeyValueStoreServicer):
     def Put(self, request, context):
         timestamp = self._apply_once(request, request.timestamp or now_ms())
 
-        if request.strategy == kvstore_pb2.ALWAYS_AP:
-            # step 5 will spread AP writes to the other replicas
-            return kvstore_pb2.PutReply(success=True, acks_received=1)
-
         copy = kvstore_pb2.PutRequest(
             key=request.key,
             value=request.value,
             idempotency_key=request.idempotency_key,
             strategy=request.strategy,
-            timestamp=timestamp,             # peers must store the SAME timestamp
+            timestamp=timestamp,             
         )
-        acks = 1 + self._replicate(copy)     # 1 = this replica itself
+        acks = 1 + self._replicate(copy)     
+
+        if request.strategy == kvstore_pb2.ALWAYS_AP:
+            return kvstore_pb2.PutReply(success=True, acks_received=acks)
+
         needed = self.majority()
         if acks >= needed:
             return kvstore_pb2.PutReply(success=True, acks_received=acks)

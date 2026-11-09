@@ -2,7 +2,6 @@
 import argparse
 import sys
 import uuid
-
 import grpc
 
 import kvstore_pb2
@@ -46,6 +45,8 @@ def main():
     put.add_argument("value")
     put.add_argument("--idem", default=None, help="idempotency key (default: random)")
     put.add_argument("--strategy", choices=["cp", "ap"], default="cp")
+    put.add_argument("--ts", type=int, default=0,
+                     help="explicit timestamp in ms (default: now)")	
 
     get = sub.add_parser("get")
     get.add_argument("key")
@@ -58,7 +59,7 @@ def main():
         if args.cmd == "put":
             strategy = (kvstore_pb2.QUORUM_CP if args.strategy == "cp"
                         else kvstore_pb2.ALWAYS_AP)
-            reply = client.put(args.key, args.value, args.idem, strategy)
+            reply = client.put(args.key, args.value, args.idem, strategy, args.ts)
             if reply.success:
                 print(f"OK acks={reply.acks_received}")
             else:
